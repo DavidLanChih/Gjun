@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>客戶資料查詢</title>
+</head>
+<body>
+    <fieldset>
+        <legend>客戶資料查詢</legend>
+        <!--表單頁面 採用傳送方法 POST  action=""-->
+        <form method="post">
+            <div>
+                <label>國家別</label>
+                <input type="text" name="country" th:value="${country}"/>
+                <input type="submit" value="查詢"/>
+            </div>
+        </form>
+    </fieldset>
+    <!--呈現查詢結果-->
+    <div th:if="${result!=null}">
+        <div th:if="${result.size()>0}">
+			<fieldset>
+                <legend>客戶查詢結果</legend>
+                <!--多筆多欄-->
+                <table>
+                    <thead>
+                        <tr>
+                            <td>客戶編號</td>
+                            <td>姓</td>
+                            <td>名字</td>
+                            <td>Email</td>
+                            <td>國家別</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--使用for each-->
+                        <tr th:each="customer: ${result}">
+                            <td th:text="${customer.customerId}"></td>
+                            <td th:text="${customer.firstName}"></td>
+                            <td th:text="${customer.lastName}"></td>
+                            <td th:text="${customer.email}"></td>
+                            <td th:text="${customer.country}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+		</div>
+        <div th:if="${result.size()==0}">
+            <label th:text="${coun}"></label>
+            <label> 國家別 查無任何客戶資料</label>
+		</div>
+    </div>
+   
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ja vaScript物件</title>
+    <script>
+        //建構一個客戶物件
+        var customer={
+            //定義屬性
+            id:1,
+            name:'張三豐',
+            address:{
+                country:'中華民國',
+                city:'台中市',
+                road:'三民路',
+                number:1
+            },
+            phone:'04-23232323',
+            //方法method
+            information:function(){
+                //處理
+                return '編號:'+this.id+' 姓名:'+this.name+' 電話 :'+this.phone;
+            }
+        }
+
+        
+    </script>
+</head>
+<body>
+    
+    <fieldset>
+        <legend>物件渲染</legend>
+        <div>
+            <button id="btnShow">開始渲染</button>
+            <script>
+                document.getElementById('btnShow').addEventListener(
+                'click',
+                ()=>{
+                    console.log(customer);
+                    //渲染畫面 render UI
+                    document.getElementById('customerid').value=customer.id;
+                    document.getElementById('name').value=customer.name;
+                    document.getElementById('address').value=customer.address.country+' '+customer.address.city;
+                    //呼叫物件方法
+                    document.getElementById('infor').value=customer.information();
+                }
+
+                );
+            </script>
+        </div>
+        <table>
+            <tr>
+                <td>客戶編號</td>
+                <td><input type="text" id="customerid"/></td>
+            </tr>
+            <tr>
+                <td>姓名</td>
+                <td><input type="text" id="name"/></td>
+            </tr>
+            <tr>
+                <td>聯絡地址</td>
+                <td><input type="text" id="address"/></td>
+            </tr>
+            <tr>
+                <td>整合資訊</td>
+                <td><input type="text" id="infor"/></td>
+            </tr>
+        </table>
+    </fieldset>
+</body>
+</html>

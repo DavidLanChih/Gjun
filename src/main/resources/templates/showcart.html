@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>購物車</title>
+    <!--借助thymeleaf expression將後端Session參考的list物件 嵌入在網頁上變成JS Array-->
+    <script th:inline="javascript">
+        var cartData=/*[[${session.cart}]]*/ []  //後面是一個預設值
+    </script>
+    <!--Vue framework-->
+    <script th:src="@{/js/vue.min.js}"></script>
+</head>
+<body>
+    <fieldset id="app">
+        <legend>購物車清單</legend>
+        <div>購物車清單量:{{cart.length}}</div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <td>產品編號</td>
+                        <td>產品名稱</td>
+                        <td>單價</td>
+                        <td>購買量</td>
+                        <td>金額</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in cart">
+                        <td>{{item.productId}}</td>
+                        <td>{{item.productName}}</td>
+                        <td>{{item.unitPrice}}</td>
+                        <td>{{item.quantity}}</td>
+                        <td>{{item.unitprice*item.quantity}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+
+    <!--建構Vue Instance 掛載到特定DOM-->
+    <script>
+        var app=new Vue(
+            {
+                //直接掛載
+                el:'#app',
+                data:{
+                    //將JavaScript array轉換成Vue Data Model
+                    cart:cartData
+                }
+            }
+
+        );
+    </script>
+</body>
+</html>

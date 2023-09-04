@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>練習JavaScript</title>
+    <!--網頁 Global-->
+    <script>
+        //直接撰寫程序或者定義
+        //定義Global變數 弱型別(Weak Type) 無須定義變數型別 透過指派值直接推出型別
+        var companyName='巨匠電腦';
+        //參照出文字輸入方塊
+        var txtMessage;
+        
+
+        //定義程序 功能function 函數就是重複呼叫 也可當作事件程序 進行委派delegate
+        function sayHello(who){
+            //處理 區域變數
+            let content=who+' 您好 世界和平 '+companyName;
+            alert(content); //系統函數 可以呈現對話盒
+            txtMessage=document.getElementById("txtMessage");
+            txtMessage.value="初始值...";
+            
+        }
+
+        
+    </script>
+</head>
+<body onload="sayHello('eric')">
+    <!--JavaScript語法練習-->
+    
+    <fieldset>
+        <h1>Hello</h1>
+        <legend>JavaScript測試</legend>
+        <div>
+            <div>
+                <div>
+                    <label>輸入內容</label>
+                    <input type="text" id="txtMessage" value="預設內容"/>
+                </div>
+                <button id="btnGo">我是按鈕</button>
+            </div>
+            <script>
+                //透過網頁物件document參照出這一個Button Element物件
+            var btnGo=document.getElementById('btnGo');
+                console.log(typeof(btnGo)); //標籤是一個物件(DOM規範)
+                //動態咬一個事件程序
+                btnGo.addEventListener('click',
+                //沒有名稱的function(匿名函數) 直接委派變成事件程序(e 事件發生來源)
+                function(e){
+                    let caption=e.target.innerText;
+                    console.log(caption);
+                    //取出文字輸入方塊輸入的內容
+                    let content=txtMessage.value;
+                    console.log(content);
+                }
+                );
+            </script>
+        </div>
+    </fieldset>
+</body>
+</html>

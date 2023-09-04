@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript資料處理</title>
+    <script>
+		var selName;
+        //設定陣列資料
+        var names=["Allen","Barry","Cathy","Deby"];
+        function init(){
+			//參照出那一個select標籤物件
+			selName=document.getElementById('selName');
+            //走訪陣列
+            for(index in names){
+                console.log(index); //使用順序取出相對姓名
+                let name=names[index]; 
+                console.log(name);
+                //使用家裡那一個大人文件
+                let option=document.createElement("option");
+                //設定內容 一個屬性value 一個innerText
+                option.value=name;
+                option.innerText=name;
+                console.log(option);
+                //讓select參考
+                selName.appendChild(option);
+            }
+        }
+    </script>
+</head>
+<body onload="init()" >
+    <fieldset>
+        <legend>資料處理</legend>
+        <div>
+            <label>姓名清單</label>
+            <select id="selName">
+              
+            </select>
+        </div>
+    </fieldset>
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--使用thymeleaf 動態參考網址 @ url-->
+    <script th:src="@{/js/vue.min.js}"></script>
+    <script th:src="@{/js/axios.min.js}"></script>
+    <!--動態參考jquery core-->
+    <script th:src="@{/js/jquery-3.7.0.min.js}"></script>
+    <!--jquery ui-->
+    <script th:src="@{/ui/base/jquery-ui.min.js}"></script>
+    <link th:href="@{/ui/base/jquery-ui.min.css}" rel="stylesheet">
+    <link th:href="@{/ui/base/jquery-ui.structure.min.css}" rel="stylesheet">
+    <link th:href="@{/ui/base/jquery-ui.theme.min.css}" rel="stylesheet">
+    <title>客戶查詢-採用分散式架構</title>
+    <!--動態產生JavaScript定義-->
+    <script th:inline="javascript">
+        var updateURL=/*[[${update}]]*/ ''  
+        var queryURL=/*[[${query}]]*/  ''
+    </script>
+    <style>
+       input{
+        background-color: black;
+        color:white;
+        font-size: 18px;
+       }
+       .tableStyle{
+		   background-color: antiquewhite;
+		   
+	   }
+
+       tbody tr:nth-child(even){
+        background-color: rgb(179, 194, 234);
+       }
+       tbody tr:nth-child(odd){
+        background-color: rgb(226, 149, 149);
+       }
+       tbody tr:hover{
+        background-color: white;
+        color:black;
+       }
+       .selectedStyle{
+        background-color: black;
+        color:white;
+       }
+       .editFieldWidth{
+        width: 400;
+       }
+    </style>
+    <!--配置jquery進行頁面下載引發事件 進行初始化 -->
+    <script>
+        //使用jquery selector挑選頁面物件.引發事件
+        $(document).ready(
+            //埋入事件程序
+            function(){
+                //alert('hi jquery...');
+                
+            }
+
+        );
+    </script>
+  
+</head>
+<body>
+    <!--沒有表單頁面 採用前端JabvaScript進行非同步處理-->
+    <fieldset id="myApp">
+        <legend>客戶查詢</legend>
+        <div>
+            <div>國家別</div>
+            <!--使用Vue 指令 借助v-model 雙向two-ways attribute-->
+            <input type="text" v-model:value="country"/>
+            <button v-on:click="queryHandler" style="color:blueviolet;font-size: 18px;">查詢</button>
+        </div>
+        <div>查詢國家別:{{country}}</div>
+
+        <div>{{message}}</div>
+        <fieldset v-show="isShow">
+            <legend>{{country}} 客戶清單</legend>
+            <div>記錄數:{{result.length}}</div>
+            <table class="tableStyle">
+                <thead>
+                    <tr>
+                        <td>編輯</td>    
+                        <td>客戶編號</td>
+                        <td>公司行號</td>
+                        <td>連絡電話</td>
+                        <td>聯絡地址</td>
+                        <td>國家別</td>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    <tr v-for="item,index in result">
+                        <td>
+                            <!--bind單向綁定-->
+                            <button v-bind:accesskey="index" v-on:click="editHandler">編輯</button>
+                            <button v-bind:accesskey="index" v-on:click="deleteHandler">刪除</button>
+                        </td>
+                        <td>{{item.customerId}}</td>
+                        <td>{{item.companyName}}</td>
+                        <td>{{item.phone}}</td>
+                        <td>{{item.address}}</td>
+                        <td>{{item.country}}</td>
+                    </tr>    
+                </tbody>
+            </table>
+        </fieldset>
+        <div>挑選的客戶:{{curCustomer.companyName}}</div>
+
+        <!--edit對話盒-->
+        <fieldset id="editDialog" v-show="isEdit">
+            <h3>客戶資料編輯</h3>
+            <table>
+                <tr>
+                    <td>客戶編號</td>
+                    <td><input type="text" v-bind:value="curCustomer.customerId" class="editFieldWidth" readonly/></td>
+                </tr>
+                <tr>
+                    <td>公司行號</td>
+                    <td><input type="text" v-model:value="curCustomer.companyName" class="editFieldWidth"/></td>
+                </tr>
+                <tr>
+                    <td>聯絡地址</td>
+                    <td><input type="text" v-model:value="curCustomer.address" class="editFieldWidth"/></td>
+                </tr>
+                <tr>
+                    <td>連絡電話</td>
+                    <td><input type="text" v-model:value="curCustomer.phone" class="editFieldWidth"/></td>
+                </tr>
+                <tr>
+                    <td>國家別</td>
+                    <td><input type="text" v-model:value="curCustomer.country" class="editFieldWidth"/></td>
+                </tr>
+            </table>
+            <h3 style="color:red;">{{message}}</h4>
+        </fieldset>
+    </fieldset>
+
+    <!--JS 設計Vue-->
+    <script>
+        //1.建構一個Vue Instance物件
+        var app=new Vue(
+            //settings
+            {
+                //data資料模組
+                data:{
+                    country:'USA',
+                    //呼喚後端服務回應的JSON Array
+                    result:[], //查詢結果
+                    message:'',
+                    isShow:false,
+                    isEdit:false,
+                    curCustomer:{}  //挑選的相對列物件
+                },
+                //重複功能 或者事件程序
+                methods:{
+                    //聆聽按鈕觸發click事件程序
+                    queryHandler:function(){
+                        //reset
+                        this.isShow=false;
+                        this.message='';
+                        console.log('您查詢國家別:'+this.country);
+                        //TODO 呼喚後端服務 採用非同步AJAX
+                        //使用axios framework實現AJAX
+                        let urlString=queryURL+this.country;
+                        //Request Method-GET
+                        axios.get(urlString)
+                        //http status 2xx 
+                        .then(res => {
+                            console.log(res)
+                            //將回呼查詢結果
+                            this.result=res.data;
+                            this.isShow=true;
+                        })
+                        //4xx or 5xx
+                        .catch(err => {
+                            console.log(err); 
+                            //判斷
+                            console.log(err.response);
+                            if(err.response.status==400){
+                                this.message=err.response.data.msg;
+                            }
+                        })
+                        
+                    },
+                    //編輯按鈕觸發事件
+                    editHandler:function(e){
+                        console.log(e);
+                        this.isEdit=true;
+                        this.message='';
+                        //編輯按鈕對應資料渲染時的順序
+                        let index=e.target.accessKey;
+                        //相對陣列的順序 取出相對客戶物件 設定Vue資料模組 進行編輯該筆資料
+                        this.curCustomer=this.result[index];
+                        //使用jquery selector hight被點取的那一列row
+                        let obj=$('#tbody tr')
+                        console.log(obj);
+                        //呈現對話盒
+                        $('#editDialog').dialog(
+                            //建構一個JS物件進行屬性設定
+                            {
+                                title:'客戶資料編輯',
+                                width:400,
+                                height:400,
+                                //強佔式對話盒
+                                modal:true,
+                                //客製化按鈕
+                                buttons:[
+                                    {
+                                        text:"儲存",
+                                        click:function(){
+                                            //TODO 採用非同步呼喚後端服務 送出json進行資料更新
+                                            //服務位址
+                                            let urlString=updateURL;
+                                            console.log(app.curCustomer);
+                                            //採用jQuery ajax
+                                            $.ajax(
+                                                {
+                                                    //使用JS物件設定屬性
+                                                    url:urlString, //服務位址
+                                                    type:'PUT',
+                                                    beforeSend:function(xhr){
+                                                        //加入header
+                                                        xhr.setRequestHeader("Content-Type","application/json");
+                                                    },
+                                                    data:JSON.stringify(app.curCustomer),
+                                                    //callback 
+                                                    success:function(data,status,xhr){
+                                                        console.log(data);
+                                                        //渲染畫面Vue Model
+                                                        app.message=data.msg;
+                                                    },
+                                                    error:function(xhr,status,error){
+                                                        console.log(xhr);
+                                                    }
+                                                }
+                                            );
+                                        }
+                                    },
+                                    {
+                                        text:'取消',
+                                        click:function(){
+                                            //關閉對話盒
+                                            $('#editDialog').dialog('close');
+                                        }
+                                    }
+                                ]
+                            }
+                        );
+
+                    },
+                    //刪除相對客戶資料
+                    deleteHandler:function(e){
+                        let index=e.target.accessKey;
+                        //從陣列取出相對紀錄
+                        let customer=app.result[index];
+                        Swal.fire(
+                            //settings JS物件
+                            {
+                                title:'刪除作業',
+                                text:'刪除的客戶編號:'+customer.customerId,
+                                icon:'warning',
+                                showCancelButton:true,
+                                confirmButtonText:'確定',
+                                cancelButtonText:'取消'
+                            }
+                        )
+                        //觸發按鈕的callback
+                        .then(
+                            result=>{
+                                console.log(result);
+                                if(result.isConfirmed){
+                                    console.log('確定刪除');
+                                    //進行非同處理 採用axios framework
+                                    //進行初始化設定...Http Request Method:GET
+                                    let url='http://localhost:8080/service/v1/customers/delete/'+customer.customerId+'/rawdata';
+                                    axios.delete(url)
+                                    //Http status code=2xx
+                                    .then(res => {
+                                        console.log(res)
+                                        //呈現對話盒
+                                        Swal.fire(
+                                            {
+                                                title:'訊息視窗',
+                                                text:res.data.msg,
+                                                icon:'info'
+                                            }
+                                        );
+                                        //前端資料Array同步
+                                        app.result.splice(index,1);
+                                    })
+                                    //Http status code -4xx or 5xx
+                                    .catch(err => {
+                                        console.log(err.response);
+                                        Swal.fire(
+                                            {
+                                                title:'訊息視窗',
+                                                text:err.response.data.msg,
+                                                icon:'info'
+                                            }
+                                        ); 
+                                    })
+
+                                }
+                            }
+                        )
+                    }
+                }
+            }
+        ); //new 建構子 初始化 使用物件
+        //2.掛載Mounting
+        app.$mount('#myApp'); //#id CSS selector
+
+    </script>
+</body>
+</html>

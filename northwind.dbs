@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="MySql" id="Project-1bb9" database="MySql" >
+	<schema name="northwind" >
+		<table name="categories" row_count="8" spec="" >
+			<column name="CategoryID" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="CategoryName" type="VARCHAR" length="15" jt="12" mandatory="y" />
+			<column name="Description" type="MEDIUMTEXT" jt="-1" />
+			<column name="Picture" type="LONGBLOB" jt="-4" />
+			<index name="pk_categories" unique="PRIMARY_KEY" >
+				<column name="CategoryID" />
+			</index>
+			<index name="CategoryName" unique="NORMAL" >
+				<column name="CategoryName" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="customercustomerdemo" row_count="0" spec="" >
+			<column name="CustomerID" type="VARCHAR" length="5" jt="12" mandatory="y" />
+			<column name="CustomerTypeID" type="VARCHAR" length="10" jt="12" mandatory="y" />
+			<index name="pk_customercustomerdemo" unique="PRIMARY_KEY" >
+				<column name="CustomerID" />
+				<column name="CustomerTypeID" />
+			</index>
+			<index name="FK_CustomerCustomerDemo" unique="NORMAL" >
+				<column name="CustomerTypeID" />
+			</index>
+			<fk name="FK_CustomerCustomerDemo" to_schema="northwind" to_table="customerdemographics" options="" >
+				<fk_column name="CustomerTypeID" pk="CustomerTypeID" />
+			</fk>
+			<fk name="FK_CustomerCustomerDemo_Customers" to_schema="northwind" to_table="customers" options="" >
+				<fk_column name="CustomerID" pk="CustomerID" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="customerdemographics" row_count="0" spec="" >
+			<column name="CustomerTypeID" type="VARCHAR" length="10" jt="12" mandatory="y" />
+			<column name="CustomerDesc" type="MEDIUMTEXT" jt="-1" />
+			<index name="pk_customerdemographics" unique="PRIMARY_KEY" >
+				<column name="CustomerTypeID" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="customers" row_count="93" spec="" >
+			<column name="CustomerID" type="VARCHAR" length="5" jt="12" mandatory="y" />
+			<column name="CompanyName" type="VARCHAR" length="40" jt="12" mandatory="y" />
+			<column name="ContactName" type="VARCHAR" length="30" jt="12" />
+			<column name="ContactTitle" type="VARCHAR" length="30" jt="12" />
+			<column name="Address" type="VARCHAR" length="60" jt="12" />
+			<column name="City" type="VARCHAR" length="15" jt="12" />
+			<column name="Region" type="VARCHAR" length="15" jt="12" />
+			<column name="PostalCode" type="VARCHAR" length="10" jt="12" />
+			<column name="Country" type="VARCHAR" length="15" jt="12" />
+			<column name="Phone" type="VARCHAR" length="24" jt="12" />
+			<column name="Fax" type="VARCHAR" length="24" jt="12" />
+			<index name="pk_customers" unique="PRIMARY_KEY" >
+				<column name="CustomerID" />
+			</index>
+			<index name="City" unique="NORMAL" >
+				<column name="City" />
+			</index>
+			<index name="CompanyName" unique="NORMAL" >
+				<column name="CompanyName" />
+			</index>
+			<index name="PostalCode" unique="NORMAL" >
+				<column name="PostalCode" />
+			</index>
+			<index name="Region" unique="NORMAL" >
+				<column name="Region" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="employees" row_count="9" spec="" >
+			<column name="EmployeeID" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="LastName" type="VARCHAR" length="20" jt="12" mandatory="y" />
+			<column name="FirstName" type="VARCHAR" length="10" jt="12" mandatory="y" />
+			<column name="Title" type="VARCHAR" length="30" jt="12" />
+			<column name="TitleOfCourtesy" type="VARCHAR" length="25" jt="12" />
+			<column name="BirthDate" type="DATETIME" jt="93" />
+			<column name="HireDate" type="DATETIME" jt="93" />
+			<column name="Address" type="VARCHAR" length="60" jt="12" />
+			<column name="City" type="VARCHAR" length="15" jt="12" />
+			<column name="Region" type="VARCHAR" length="15" jt="12" />
+			<column name="PostalCode" type="VARCHAR" length="10" jt="12" />
+			<column name="Country" type="VARCHAR" length="15" jt="12" />
+			<column name="HomePhone" type="VARCHAR" length="24" jt="12" />
+			<column name="Extension" type="VARCHAR" length="4" jt="12" />
+			<column name="Photo" type="LONGBLOB" jt="-4" />
+			<column name="Notes" type="MEDIUMTEXT" jt="-1" mandatory="y" />
+			<column name="ReportsTo" type="INT" jt="4" />
+			<column name="PhotoPath" type="VARCHAR" length="255" jt="12" />
+			<column name="Salary" type="FLOAT" jt="7" />
+			<index name="pk_employees" unique="PRIMARY_KEY" >
+				<column name="EmployeeID" />
+			</index>
+			<index name="LastName" unique="NORMAL" >
+				<column name="LastName" />
+			</index>
+			<index name="PostalCode" unique="NORMAL" >
+				<column name="PostalCode" />
+			</index>
+			<index name="FK_Employees_Employees" unique="NORMAL" >
+				<column name="ReportsTo" />
+			</index>
+			<fk name="FK_Employees_Employees" to_schema="northwind" to_table="employees" options="" >
+				<fk_column name="ReportsTo" pk="EmployeeID" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="employeeterritories" row_count="49" spec="" >
+			<column name="EmployeeID" type="INT" jt="4" mandatory="y" />
+			<column name="TerritoryID" type="VARCHAR" length="20" jt="12" mandatory="y" />
+			<index name="pk_employeeterritories" unique="PRIMARY_KEY" >
+				<column name="EmployeeID" />
+				<column name="TerritoryID" />
+			</index>
+			<index name="FK_EmployeeTerritories_Territories" unique="NORMAL" >
+				<column name="TerritoryID" />
+			</index>
+			<fk name="FK_EmployeeTerritories_Employees" to_schema="northwind" to_table="employees" options="" >
+				<fk_column name="EmployeeID" pk="EmployeeID" />
+			</fk>
+			<fk name="FK_EmployeeTerritories_Territories" to_schema="northwind" to_table="territories" options="" >
+				<fk_column name="TerritoryID" pk="TerritoryID" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="order details" row_count="2155" spec="" >
+			<column name="OrderID" type="INT" jt="4" mandatory="y" />
+			<column name="ProductID" type="INT" jt="4" mandatory="y" />
+			<column name="UnitPrice" type="DECIMAL" length="10" decimal="4" jt="3" mandatory="y" >
+				<defo><![CDATA['0.0000']]></defo>
+			</column>
+			<column name="Quantity" type="SMALLINT" jt="5" mandatory="y" >
+				<defo><![CDATA['1']]></defo>
+			</column>
+			<column name="Discount" type="DOUBLE" length="8" decimal="0" jt="8" mandatory="y" >
+				<defo><![CDATA['0']]></defo>
+			</column>
+			<index name="pk_order details" unique="PRIMARY_KEY" >
+				<column name="OrderID" />
+				<column name="ProductID" />
+			</index>
+			<index name="FK_Order_Details_Products" unique="NORMAL" >
+				<column name="ProductID" />
+			</index>
+			<fk name="FK_Order_Details_Orders" to_schema="northwind" to_table="orders" options="" >
+				<fk_column name="OrderID" pk="OrderID" />
+			</fk>
+			<fk name="FK_Order_Details_Products" to_schema="northwind" to_table="products" options="" >
+				<fk_column name="ProductID" pk="ProductID" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="orders" row_count="830" spec="" >
+			<column name="OrderID" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="CustomerID" type="VARCHAR" length="5" jt="12" />
+			<column name="EmployeeID" type="INT" jt="4" />
+			<column name="OrderDate" type="DATETIME" jt="93" />
+			<column name="RequiredDate" type="DATETIME" jt="93" />
+			<column name="ShippedDate" type="DATETIME" jt="93" />
+			<column name="ShipVia" type="INT" jt="4" />
+			<column name="Freight" type="DECIMAL" length="10" decimal="4" jt="3" >
+				<defo><![CDATA['0.0000']]></defo>
+			</column>
+			<column name="ShipName" type="VARCHAR" length="40" jt="12" />
+			<column name="ShipAddress" type="VARCHAR" length="60" jt="12" />
+			<column name="ShipCity" type="VARCHAR" length="15" jt="12" />
+			<column name="ShipRegion" type="VARCHAR" length="15" jt="12" />
+			<column name="ShipPostalCode" type="VARCHAR" length="10" jt="12" />
+			<column name="ShipCountry" type="VARCHAR" length="15" jt="12" />
+			<index name="pk_orders" unique="PRIMARY_KEY" >
+				<column name="OrderID" />
+			</index>
+			<index name="OrderDate" unique="NORMAL" >
+				<column name="OrderDate" />
+			</index>
+			<index name="ShippedDate" unique="NORMAL" >
+				<column name="ShippedDate" />
+			</index>
+			<index name="ShipPostalCode" unique="NORMAL" >
+				<column name="ShipPostalCode" />
+			</index>
+			<index name="FK_Orders_Customers" unique="NORMAL" >
+				<column name="CustomerID" />
+			</index>
+			<index name="FK_Orders_Employees" unique="NORMAL" >
+				<column name="EmployeeID" />
+			</index>
+			<index name="FK_Orders_Shippers" unique="NORMAL" >
+				<column name="ShipVia" />
+			</index>
+			<fk name="FK_Orders_Customers" to_schema="northwind" to_table="customers" options="" >
+				<fk_column name="CustomerID" pk="CustomerID" />
+			</fk>
+			<fk name="FK_Orders_Employees" to_schema="northwind" to_table="employees" options="" >
+				<fk_column name="EmployeeID" pk="EmployeeID" />
+			</fk>
+			<fk name="FK_Orders_Shippers" to_schema="northwind" to_table="shippers" options="" >
+				<fk_column name="ShipVia" pk="ShipperID" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB AUTO_INCREMENT=11078 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="products" row_count="77" spec="" >
+			<column name="ProductID" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="ProductName" type="VARCHAR" length="40" jt="12" mandatory="y" />
+			<column name="SupplierID" type="INT" jt="4" />
+			<column name="CategoryID" type="INT" jt="4" />
+			<column name="QuantityPerUnit" type="VARCHAR" length="20" jt="12" />
+			<column name="UnitPrice" type="DECIMAL" length="10" decimal="4" jt="3" >
+				<defo><![CDATA['0.0000']]></defo>
+			</column>
+			<column name="UnitsInStock" type="SMALLINT" jt="5" >
+				<defo><![CDATA['0']]></defo>
+			</column>
+			<column name="UnitsOnOrder" type="SMALLINT" jt="5" >
+				<defo><![CDATA['0']]></defo>
+			</column>
+			<column name="ReorderLevel" type="SMALLINT" jt="5" >
+				<defo><![CDATA['0']]></defo>
+			</column>
+			<column name="Discontinued" type="BOOLEAN" length="1" jt="16" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<index name="pk_products" unique="PRIMARY_KEY" >
+				<column name="ProductID" />
+			</index>
+			<index name="ProductName" unique="NORMAL" >
+				<column name="ProductName" />
+			</index>
+			<index name="FK_Products_Categories" unique="NORMAL" >
+				<column name="CategoryID" />
+			</index>
+			<index name="FK_Products_Suppliers" unique="NORMAL" >
+				<column name="SupplierID" />
+			</index>
+			<fk name="FK_Products_Categories" to_schema="northwind" to_table="categories" options="" >
+				<fk_column name="CategoryID" pk="CategoryID" />
+			</fk>
+			<fk name="FK_Products_Suppliers" to_schema="northwind" to_table="suppliers" options="" >
+				<fk_column name="SupplierID" pk="SupplierID" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="region" row_count="4" spec="" >
+			<column name="RegionID" type="INT" jt="4" mandatory="y" />
+			<column name="RegionDescription" type="VARCHAR" length="50" jt="12" mandatory="y" />
+			<index name="pk_region" unique="PRIMARY_KEY" >
+				<column name="RegionID" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="shippers" row_count="3" spec="" >
+			<column name="ShipperID" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="CompanyName" type="VARCHAR" length="40" jt="12" mandatory="y" />
+			<column name="Phone" type="VARCHAR" length="24" jt="12" />
+			<index name="pk_shippers" unique="PRIMARY_KEY" >
+				<column name="ShipperID" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="suppliers" row_count="29" spec="" >
+			<column name="SupplierID" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="CompanyName" type="VARCHAR" length="40" jt="12" mandatory="y" />
+			<column name="ContactName" type="VARCHAR" length="30" jt="12" />
+			<column name="ContactTitle" type="VARCHAR" length="30" jt="12" />
+			<column name="Address" type="VARCHAR" length="60" jt="12" />
+			<column name="City" type="VARCHAR" length="15" jt="12" />
+			<column name="Region" type="VARCHAR" length="15" jt="12" />
+			<column name="PostalCode" type="VARCHAR" length="10" jt="12" />
+			<column name="Country" type="VARCHAR" length="15" jt="12" />
+			<column name="Phone" type="VARCHAR" length="24" jt="12" />
+			<column name="Fax" type="VARCHAR" length="24" jt="12" />
+			<column name="HomePage" type="MEDIUMTEXT" jt="-1" />
+			<index name="pk_suppliers" unique="PRIMARY_KEY" >
+				<column name="SupplierID" />
+			</index>
+			<index name="CompanyName" unique="NORMAL" >
+				<column name="CompanyName" />
+			</index>
+			<index name="PostalCode" unique="NORMAL" >
+				<column name="PostalCode" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+		<table name="territories" row_count="53" spec="" >
+			<column name="TerritoryID" type="VARCHAR" length="20" jt="12" mandatory="y" />
+			<column name="TerritoryDescription" type="VARCHAR" length="50" jt="12" mandatory="y" />
+			<column name="RegionID" type="INT" jt="4" mandatory="y" />
+			<index name="pk_territories" unique="PRIMARY_KEY" >
+				<column name="TerritoryID" />
+			</index>
+			<index name="FK_Territories_Region" unique="NORMAL" >
+				<column name="RegionID" />
+			</index>
+			<fk name="FK_Territories_Region" to_schema="northwind" to_table="region" options="" >
+				<fk_column name="RegionID" pk="RegionID" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci]]></options>
+		</table>
+	</schema>
+	<connector name="MySql" database="MySql" driver_class="com.mysql.cj.jdbc.Driver" driver_jar="mysql-connector-j-8.0.32.jar" url="jdbc:mysql://localhost:3306/sakila?useSSL=false&amp;serverTimezone=UTC&amp;characterEncoding=utf-8&amp;allowPublicKeyRetrieval=True" host="localhost" port="3306" user="root" passwd="MTExMQ==" useSystemProxy="false" />
+	<layout name="Main Layout" id="Layout-d19" show_relation="columns" >
+		<entity schema="northwind" name="categories" color="BED3F4" x="1024" y="960" />
+		<entity schema="northwind" name="customercustomerdemo" color="F4DDBE" x="800" y="80" />
+		<entity schema="northwind" name="customerdemographics" color="F4DDBE" x="800" y="256" />
+		<entity schema="northwind" name="customers" color="F4DDBE" x="1056" y="80" />
+		<entity schema="northwind" name="employees" color="C7F4BE" x="48" y="272" />
+		<entity schema="northwind" name="employeeterritories" color="C7F4BE" x="48" y="720" />
+		<entity schema="northwind" name="order details" color="C7F4BE" x="496" y="272" />
+		<entity schema="northwind" name="orders" color="C7F4BE" x="272" y="272" />
+		<entity schema="northwind" name="products" color="BED3F4" x="800" y="960" />
+		<entity schema="northwind" name="region" color="C7F4BE" x="528" y="720" />
+		<entity schema="northwind" name="shippers" color="C7F4BE" x="48" y="80" />
+		<entity schema="northwind" name="suppliers" color="BED3F4" x="1024" y="1264" />
+		<entity schema="northwind" name="territories" color="C7F4BE" x="272" y="720" />
+		<callout x="48" y="128" pointer="Round" >
+			<comment><![CDATA[This is a layout. 
+- Double-click table headers, columns, or foreign keys to edit 
+- Drag tables to the layout from the structure tree, or 
+   add them by pressing the arrow icon near columns 
+- Create multiple layouts with the same or different tables 
+- Right-click the layout to create new tables]]></comment>
+		</callout>
+		<group name="customercustomerdemo" color="F7F2EC" >
+			<entity schema="northwind" name="customercustomerdemo" />
+			<entity schema="northwind" name="customers" />
+			<entity schema="northwind" name="customerdemographics" />
+		</group>
+		<group name="products" color="ECF0F7" >
+			<entity schema="northwind" name="products" />
+			<entity schema="northwind" name="categories" />
+			<entity schema="northwind" name="suppliers" />
+		</group>
+		<group name="employees" color="EEF7EC" >
+			<entity schema="northwind" name="employees" />
+			<entity schema="northwind" name="orders" />
+			<entity schema="northwind" name="territories" />
+			<entity schema="northwind" name="employeeterritories" />
+			<entity schema="northwind" name="order details" />
+			<entity schema="northwind" name="region" />
+			<entity schema="northwind" name="shippers" />
+		</group>
+	</layout>
+	<layout name="~Layout with Sample Tools" id="Layout-4c1" show_column_type="y" show_relation="columns" >
+		<entity schema="northwind" name="categories" color="BED3F4" x="1328" y="928" />
+		<entity schema="northwind" name="customercustomerdemo" color="F4DDBE" x="1024" y="48" />
+		<entity schema="northwind" name="customerdemographics" color="F4DDBE" x="1024" y="224" />
+		<entity schema="northwind" name="customers" color="F4DDBE" x="1328" y="48" />
+		<entity schema="northwind" name="employees" color="C7F4BE" x="48" y="240" />
+		<entity schema="northwind" name="employeeterritories" color="C7F4BE" x="48" y="688" />
+		<entity schema="northwind" name="order details" color="C7F4BE" x="656" y="240" />
+		<entity schema="northwind" name="orders" color="C7F4BE" x="352" y="240" />
+		<entity schema="northwind" name="products" color="BED3F4" x="1024" y="928" />
+		<entity schema="northwind" name="region" color="C7F4BE" x="672" y="688" />
+		<entity schema="northwind" name="shippers" color="C7F4BE" x="48" y="48" />
+		<entity schema="northwind" name="suppliers" color="BED3F4" x="1328" y="1232" />
+		<entity schema="northwind" name="territories" color="C7F4BE" x="352" y="688" />
+		<script name="SQL Editor" id="Editor-2433" language="SQL" >
+			<string><![CDATA[SELECT
+	`EmployeeID`, `LastName`, `FirstName`, `Title`, `TitleOfCourtesy`, `BirthDate`, `HireDate`, `Address`, `City`, `Region`, 
+	`PostalCode`, `Country`, `HomePhone`, `Extension`, `Photo`, `Notes`, `ReportsTo`, `PhotoPath`, `Salary`
+FROM
+	northwind.employees s;]]></string>
+		</script>
+		<browser id="Browse-217d" name="Relational Data Explorer" confirm_updates="y" >
+			<browse_table schema="northwind" entity="employees" x="20" y="20" width="400" height="300" >
+				<browse_table schema="northwind" entity="employeeterritories" fk="FK_EmployeeTerritories_Employees" x="440" y="20" width="500" height="350" >
+					<browse_table schema="northwind" entity="territories" fk="FK_EmployeeTerritories_Territories" x="960" y="20" width="500" height="350" record_view="y" />
+				</browse_table>
+			</browse_table>
+		</browser>
+		<query id="Query-173" name="Query Builder" >
+			<query_table schema="northwind" name="employees" alias="e" x="48" y="48" >
+				<column name="EmployeeID" />
+				<column name="LastName" />
+				<column name="FirstName" />
+				<column name="Title" />
+				<column name="TitleOfCourtesy" />
+				<column name="BirthDate" />
+				<column name="HireDate" />
+				<column name="Address" />
+				<column name="City" />
+				<column name="Region" />
+				<column name="PostalCode" />
+				<column name="Country" />
+				<column name="HomePhone" />
+				<column name="Extension" />
+				<column name="Photo" />
+				<column name="Notes" />
+				<column name="ReportsTo" />
+				<column name="PhotoPath" />
+				<column name="Salary" />
+				<query_table schema="northwind" name="employeeterritories" alias="e1" x="272" y="48" fk="FK_EmployeeTerritories_Employees" type="Inner Join" >
+					<column name="EmployeeID" />
+					<column name="TerritoryID" />
+					<query_table schema="northwind" name="territories" alias="t" x="512" y="48" fk="FK_EmployeeTerritories_Territories" type="Inner Join" >
+						<column name="TerritoryID" />
+						<column name="TerritoryDescription" />
+						<column name="RegionID" />
+					</query_table>
+				</query_table>
+			</query_table>
+		</query>
+		<form name="Report" id="Report-1912" template="Page" css="container-fluid" view="frame" >
+			<var name="samplePageNumber" type="4" value="0" mandatory="n" />
+			<var name="sampleRecordsPerPage" type="4" value="100" mandatory="n" />
+			<body name="Body" template="Grid" pos="0,0,0,0,f,f" layout="{{-2,-2,-2,-2,-1},{-2,-2,-2,-2}}" scroll="n" html="n" >
+				<cell type="label" name="Employees Data" template="H3" pos="0,0,1,0,l,c" />
+				<cell type="chart" name="Pie" template="Pie" pos="0,1,4,1,l,c" max_records="20" >
+					<form_script type="DataSource" language="SQL" >
+						<var name="EmployeeID" type="4" />
+						<var name="LastName" />
+						<var name="FirstName" />
+						<var name="Title" />
+						<var name="TitleOfCourtesy" />
+						<var name="BirthDate" type="93" />
+						<var name="HireDate" type="93" />
+						<var name="Address" />
+						<var name="City" />
+						<var name="Region" />
+						<var name="PostalCode" />
+						<var name="Country" />
+						<var name="HomePhone" />
+						<var name="Extension" />
+						<var name="Photo" type="-4" />
+						<var name="Notes" type="-1" />
+						<var name="ReportsTo" type="4" />
+						<var name="PhotoPath" />
+						<var name="Salary" type="7" />
+						<script ><![CDATA[SELECT * FROM northwind.employees]]></script>
+					</form_script>
+					<param name="i0" value="Notes" />
+					<param name="width" value="100%" />
+					<param name="v0" value="EmployeeID" />
+					<param name="title" value="Sample Chart" />
+					<param name="height" value="400px" />
+				</cell>
+				<tableview name="sample" template="Table" css="table table-striped table-sm table-hover" pos="0,2,4,2,f,f" layout="{{-2,-2,-2,-2,-2,-2,-2},{-2,-2}}" scroll="n" html="n" header_rows="1" >
+					<form_script type="DataSource" language="SQL" >
+						<var name="EmployeeID" type="4" />
+						<var name="LastName" />
+						<var name="FirstName" />
+						<var name="Title" />
+						<var name="TitleOfCourtesy" />
+						<var name="BirthDate" type="93" />
+						<var name="HireDate" type="93" />
+						<var name="Address" />
+						<var name="City" />
+						<var name="Region" />
+						<var name="PostalCode" />
+						<var name="Country" />
+						<var name="HomePhone" />
+						<var name="Extension" />
+						<var name="Photo" type="-4" />
+						<var name="Notes" type="-1" />
+						<var name="ReportsTo" type="4" />
+						<var name="PhotoPath" />
+						<var name="Salary" type="7" />
+						<script ><![CDATA[SELECT * FROM northwind.employees]]></script>
+					</form_script>
+					<cell type="label" name="EmployeeID" pos="0,0,0,0,c,c" />
+					<cell type="label" name="LastName" pos="1,0,1,0,c,c" />
+					<cell type="label" name="FirstName" pos="2,0,2,0,c,c" />
+					<cell type="label" name="Title" pos="3,0,3,0,c,c" />
+					<cell type="label" name="TitleOfCourtesy" pos="4,0,4,0,c,c" />
+					<cell type="label" name="BirthDate" pos="5,0,5,0,c,c" />
+					<cell type="label" name="Button can open other pages." pos="6,0,6,0,c,c" />
+					<cell type="label" name="${EmployeeID}" template="Plain" pos="0,1,0,1,l,c" />
+					<cell type="label" name="${LastName}" template="Plain" pos="1,1,1,1,l,c" />
+					<cell type="label" name="${FirstName}" template="Plain" pos="2,1,2,1,l,c" />
+					<cell type="label" name="${Title}" template="Plain" pos="3,1,3,1,l,c" />
+					<cell type="label" name="${TitleOfCourtesy}" template="Plain" pos="4,1,4,1,l,c" />
+					<cell type="label" name="${BirthDate}" template="Plain" pos="5,1,5,1,l,c" />
+					<cell type="button" name="More" template="Plain" css="btn btn-sm btn-secondary" pos="6,1,6,1,c,c" ref_id="Report-1912" />
+				</tableview>
+				<cell type="href" name="" disabled="${samplePageNumber&lt;1}" pos="0,3,0,3,l,c" glyph="bi-chevron_double_left" ref_id="Report-1912" >
+					<var name="samplePageNumber" value="0" />
+				</cell>
+				<cell type="href" name="" disabled="${samplePageNumber&lt;1}" pos="1,3,1,3,l,c" glyph="bi-chevron_left" ref_id="Report-1912" >
+					<var name="samplePageNumber" value="${Math.max(0,samplePageNumber-1)}" />
+				</cell>
+				<cell type="label" name="Page ${samplePageNumber+1}" pos="2,3,2,3,l,c" />
+				<cell type="href" name="" disabled="${!sampleHasNextPage}" pos="3,3,3,3,l,c" glyph="bi-chevron_right" ref_id="Report-1912" >
+					<var name="samplePageNumber" value="${( samplePageNumber+1 )}" />
+				</cell>
+			</body>
+		</form>
+	</layout>
+</project>

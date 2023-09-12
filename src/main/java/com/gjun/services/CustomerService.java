@@ -59,6 +59,8 @@ public class CustomerService {
 				
 			}else {
 				response=ResponseEntity.ok(result);
+				System.out.println(result.iterator().next().getPhone());
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
